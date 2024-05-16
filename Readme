@@ -1,0 +1,4 @@
+sudo python3 NanoPython/complete_scan (returns a list of the scan data)
+httpServer (to activate data transfer(10.42.0.1.8000) to get data)
+
+Vider corbeille?

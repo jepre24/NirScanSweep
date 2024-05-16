@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Files</title>
+</head>
+<body>
+	<h1>Files List</h1>
+	<ul>
+		<a href="{{ url_for('download_all_files') }}" class="btn btn-primary">Download everything</a>
+		 //  <a href="{{ url_for('delete_all_files') }}" class="btn btn-danger">Delete everything</a>
+		{% for file in files %}
+			<li>
+				{{ file }}
+				<a href="{{ url_for('download_file', filename=file) }}" class="btn btn-primary">Download</a>
+				 // <a href="{{ url_for('delete_file', filename=file) }}" class="btn btn-danger">Delete</a>
+				<!-- <button onclick="deleteFile('{{ file }}')" class="btn btn-primary">Delete</button> -->
+			</li>
+		{% endfor %}
+	</ul>
+	<script>
+		function deleteFile(filename) {
+			if (confirm('Are you sure you want to delete '+ filename + '?')) {
+				const url = '/delete/${filename}';
+				fetch(url, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+				// Send a POST request to the delete route
+				//fetch('/delete/${filename}', {
+					//method: 'POST'
+				})
+				.then(response => {
+					if (response.ok) { 
+						// Reload the page or update the file list
+						location.reload();
+					} else {
+						alert('Failed to delete the file.');
+						location.reload();
+					}
+				})
+				.catch(error => {
+						console.error('Error:', error);
+				});
+			}
+		}
+	</script>
+</body>
+</html>
+
