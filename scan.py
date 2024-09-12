@@ -1,26 +1,9 @@
-
-# This is a handler function for pushButton_scan on Scan Tab clicked() event
  # This function does the following tasks
  # Checks for USB connection
  # gets the selected Scan Configuration parameters - estimates the scan time and displays
  # does the scan by calling the corresponding API functions
- # saves the scan results in .csv and .bat files in user settings directory
- # displays the spectrum - plots the scan data on the GUI
+ # saves the scan results in files in user settings directory
 
- # Looking at lines 331 scantab.cpp
-
-
-
- # get a file ready to write to
-
- # PerformScanReadData(NNO_DONT_STORE_SCAN_IN_SD, ui->spinBox_numRepeat->value(), pData, &fileSize);
-
-
- # 1517 mainwindow.cpp
-
- #  API.cpp 809
-
-#  dlpu030g.pdf pg. 50
 
 # This details how to perform a scan
 
@@ -31,7 +14,6 @@ import logging
 import asyncio
 import hid
 
-# May want to provide some sort of CLI for these settings, perhaps using data from the GUI
 
 # response = readCommand(h, 0x02, 0x20, [0x00, 124])
 # print("Read stored scan configurations: ",response)
@@ -61,7 +43,7 @@ class Spectrometer():
     def reconnect_device(self):
         try:
             logging.debug("Attempting reconnect to spectrometer")
-            #TODO Test if this if statement is needed by the HID library
+            # Test if this if statement is needed by the HID library
             if self.serial_no:
                 self.h.open(self.vid, self.pid, self.serial_no)
             else:
@@ -133,9 +115,6 @@ class Spectrometer():
             data = self.read_command(self.h, 0x00, 0x2E)
             file.extend(data)
 
-        # print("Recieved file length: ", len(file))
-        # print("Expected file length: ", data_size_combined)
-
         return file
 
 
@@ -149,9 +128,3 @@ class Spectrometer():
             response = self.write_command(self.h, 0x03, 0x0E, [0])
             hibernate_flag_status = self.read_command(self.h, 0x03, 0x0F)
             logging.debug("Updated hibernate flag status: {}".format(hibernate_flag_status))
-
-
-# can also get calibration data evm.cpp:107
-
-
-# need to check that this hasn't changed, and is continually

@@ -1,7 +1,6 @@
+# Read and write command using HID 
 import hid
 import time
-
-
 
 
 def readCommand(device, group_byte, command_byte, data = []):

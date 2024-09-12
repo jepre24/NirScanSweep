@@ -1,5 +1,4 @@
-#This code needs to run with spectrum_library which require python 32bit
-
+#!!!This code needs to run with spectrum_library which require python 32bit
 from spectrum_library import scan_interpret
 import json
 import matplotlib.pyplot as plt

@@ -1,4 +1,13 @@
-sudo python3 NanoPython/complete_scan (returns a list of the scan data)
+Folder to control automatically an optical probe, stepper motor, downloading its scan data, and analyzing it. 
+
+$sudo python3 NirScanSweep/Main (control light source, take 20 scans at different position, save data)
+
+$sudo python3 NirScanSweep/complete_scan (important scans functions and spectrometer initialization)
+
+usb to communicate using write and read with HIDAPI
+
+scan define Spectrometer class and its use
+
 httpServer (to activate data transfer(10.42.0.1.8000) to get data)
 
-Vider corbeille?
+

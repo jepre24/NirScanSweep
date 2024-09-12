@@ -1,0 +1,11 @@
+gpiozero
+RPi
+time
+hid
+os
+sys
+logging
+asyncio
+werkzeug.utils
+zipfile
+flask

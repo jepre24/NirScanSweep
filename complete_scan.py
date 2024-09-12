@@ -1,27 +1,18 @@
-#import sys
-#sys.path.insert(0, '/home/user/NanoPython/')
-
 from scan import Spectrometer, NNO_FILE_REF_CAL_COEFF, NNO_FILE_SCAN_DATA
 import hid
-#from spectrum_library import scan_interpret
-#import json
-#import matplotlib.pyplot as plt
 from os import walk
 import sys
-#import asyncio
 
 def init_spectrometer():
 # Try to open the device, otherwise read in file data
-    #spectrometer=Spectrometer(0x0451, 0x4200)
     h = hid.device()
     device_open = True
     
     try:
         print('Opening Device')
         h = Spectrometer(0x0451, 0x4200)
-        #h.open(1118, 209)
-        #h.open(0x0451, 0x4200)
           # NIRScan Nano VendorID/ProductID
+
     except IOError as ex:
         print(ex)
         print("Looks like the NIRScan Nano isn't connected")
@@ -44,11 +35,12 @@ def complete_scan(h):
         reference_data = spectrometer.get_file(NNO_FILE_REF_CAL_COEFF)
         
 
-        # combine the data and save the dat file (readable by the GUI program provided by TI)
+        # combine the data and save the data file (readable by the GUI program provided by TI)
         byte_file_combined = bytearray(scan_data + reference_data)
 
         existing = ["-1.txt"]
-        for (dirpath, dirnames, filenames) in walk("/home/user/NanoPython/data"):
+        # List all data files, name the scan next to the highest scan number
+        for (dirpath, dirnames, filenames) in walk("/home/user/NirScanSweep/data"):
             existing.extend(filenames)
             break
         existing = [int(file[: -4]) for file in existing]
@@ -60,13 +52,9 @@ def complete_scan(h):
         numberList = []
         for i in byte_file_combined:
                 numberList.append(i)
-                
-        #testlist= (int.from_bytes(byte_file_combined, 'big'))
-        
-        newFile = open("/home/user/NanoPython/data/{}.txt".format(file_save_name), "w")
+        # save scan as txt file in data folder
+        newFile = open("/home/user/NirScanSweep/data/{}.txt".format(file_save_name), "w")
         newFile.write(str(numberList))
-        #newFile = open("/home/user/NanoPython/data/{}.txt".format(file_save_name), "wb")
-        #newFile.write(byte_file_combined)
     else:
         # Open the binary
         file_save_name = "0000"
@@ -74,8 +62,7 @@ def complete_scan(h):
             myArr = bytearray(binaryfile.read())
         # send the first half through to the interpret function
         scan_data = myArr[:int(len(myArr)/2)]
-        
-
     
-spectrometer, device_open = init_spectrometer()
-complete_scan(spectrometer)
+# Initialize the spectrometer
+#spectrometer, device_open = init_spectrometer()
+#complete_scan(spectrometer)
