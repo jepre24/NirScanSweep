@@ -1,12 +1,14 @@
 from flask import Flask, send_file, send_from_directory, render_template, request, redirect, url_for, abort
 from werkzeug.utils import safe_join
 import os
+import sys
 import zipfile
 
+currentDirectory = os.path.dirname(os.path.abspath(sys.argv[0])) 
 
-app = Flask(__name__, template_folder='/home/user/NirScanSweep/templates/')
+app = Flask(__name__, template_folder=f"{currentDirectory}/templates/")
 app.config['WTF_CSRF_ENABLED'] = False
-DataFolder = '/home/user/NirScanSweep/'
+DataFolder = f"{currentDirectory}/data"
 
 @app.route('/')
 def list_files():
@@ -38,16 +40,15 @@ def delete_file(filename):
 @app.route('/download-all')
 def download_all_files():
 	# Add option to download all scans file on HTML.
-	directory_path = '/home/user/NirScanSweep/'
-	zip_file_path = '/home/user/NirScanSweep/AllData.zip'
+	zip_file_path = f"{currentDirectory}/AllData.zip"
 
 	with zipfile.ZipFile(zip_file_path, 'w') as zipf:
 		for root, dirs, files in os.walk(DataFolder):
 			for file in files: 
 				file_path = os.path.join(root, file)
-				zipf.write(file_path, os.path.relpath(file_path, directory_path))
+				zipf.write(file_path, os.path.relpath(file_path, currentDirectory))
 	try:
-		return send_from_directory('/home/user/NirScanSweep/', 'AllData.zip', as_attachment=True)
+		return send_from_directory(f"{currentDirectory}", 'AllData.zip', as_attachment=True)
 	except FileNotFoundError:
 		abort(404)
 

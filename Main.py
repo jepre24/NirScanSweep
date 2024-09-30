@@ -1,6 +1,8 @@
 import gpiozero
 import RPi.GPIO as GPIO
 from time import sleep
+#import pigpio
+#Module pigpio plus performant pour le contrôle des pins GPIOs! Tests à faire!
 
 from scan import Spectrometer, NNO_FILE_REF_CAL_COEFF, NNO_FILE_SCAN_DATA
 from complete_scan import init_spectrometer, complete_scan

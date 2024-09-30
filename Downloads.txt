@@ -1,7 +1,8 @@
 gpiozero
 RPi
 time
-hid
+python3-usb1
+python3-hid
 os
 sys
 logging
